@@ -1,0 +1,102 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="checkout">
+    <h4 class="font-weight-bold text-center">INFORMATIONS DE CAISSE</h4>
+    <div class="row">
+        <div class="col-lg-6 col-sm-12">
+            <div class="card checkout-card mt-3 mb-3">
+                <div class="card-body">
+                    <form class="" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="name" placeholder="Nom . .">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input class="form-control" type="email" name="email" placeholder="Email . .">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <hr>
+                                <h3>Les détails d'expédition</h3>
+                                <hr>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="delivery_address" placeholder="Adresse de livraison . .">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="city" placeholder="Ville . .">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="state" placeholder="numéro de telephone">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="postal_code" placeholder="Code postale . .">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <input type="submit" value="Confirmer la commande">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-12">
+            <div class="card checkout-card mt-3 mb-3">
+                <div class="card-body">
+                    <div class="">
+                        <a href="{% url 'cart' %}">
+                            <button class="link-btn-checkout btn btn-sm btn-outline-dark">Retour au panier &#8676;</button>
+                        </a>
+                    </div>
+                    <hr>
+                    <h3>Récapitulatif de la commande</h3>
+                    <hr>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th>Prix</th>
+                                <th>Quantité</th>
+                                <th>Totale</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.cart.cartitem_set.all %}
+                            <tr>
+                                <td><img class="cart-image" src="{{ item.product.image.url }}"></td>
+                                <td>{{ item.product.price }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.total_cost }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr>
+                    <div class="float-right">
+                        <h5>Article: <strong>{{ order.cart.total_products }}</strong></h5>
+                        <h5>Totale: <strong>{{ order.cart.total_amount }}</strong></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
